@@ -1,0 +1,44 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+class Applicant {
+    String name;
+    int age;
+    public Applicant(String name ,int age ){
+        this.name = name;
+        this.age = age;
+    }
+    public String checkAndGetName() throws AgeOutOfBoundsException{
+            if (this.age >= 18 && this.age <= 30){
+                return this.name;
+            }
+            else{
+                AgeOutOfBoundsException e = new AgeOutOfBoundsException("Age of "+this.name+" is outside the limits");
+                throw e;
+            }
+    }
+}
+class AgeOutOfBoundsException extends Exception{
+    public AgeOutOfBoundsException(String name){
+        super(name);
+    }
+}
+public class ExceptionTest{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Applicant> aList = new ArrayList<Applicant>();
+        for(int i=0; i < 4 ;i++){
+            Applicant a = new Applicant(sc.next(),sc.nextInt());
+            aList.add(a);
+        }
+        for(Applicant a: aList){
+            try {
+                String name = a.checkAndGetName();
+                System.out.println(name);
+            }
+            catch ( Exception ab ){
+                System.out.println(ab.getMessage());
+            }
+        }
+        sc.close();
+    }
+}
