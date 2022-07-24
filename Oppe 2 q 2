@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.List;
+import java.util.stream.*;
+class Student{
+    private double avgCGPA,income;
+   private String name,scholarshipStatus;
+   public Student(String name,double avgCGPA,double income){
+       this.name =name;
+       this.scholarshipStatus ="not eligible" ;
+       this.avgCGPA = avgCGPA;
+       this.income = income;
+   }
+   public String toString(){
+       return name+":"+this.avgCGPA+":"+this.income+":"+scholarshipStatus;
+   }
+   public double getAvgCGPA(){
+       return this.avgCGPA;
+   }
+   public double getIncome(){
+       return this.income;
+   }
+   public void setScholarshipStatus(String ss){
+       scholarshipStatus = ss;
+   }
+}
+public class StreamsTest{
+    public static Stream<Student> getEligibleStream(ArrayList<Student> la){
+      Stream<Student> m = la.stream().filter(x->x.getAvgCGPA() > 7.5).filter(y->y.getIncome()<100000) ;
+      return m;
+    }
+    public static void updateScholarshipStatus(List<Student> la){
+        for(Student s: la){
+            if(s.getAvgCGPA() >9.0){
+                s.setScholarshipStatus("grade-1 scholarship");
+            }
+            else{
+                s.setScholarshipStatus("grade-2 scholarship");
+            }
+        }
+    }
+public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+    ArrayList<Student> sList = new ArrayList<Student>();
+    Student s;
+    for(int i =0 ; i<4;i++){
+        s = new Student(sc.next(),sc.nextDouble(),sc.nextDouble());
+        sList.add(s);
+    }
+    List<Student> eList=
+    getEligibleStream(sList).collect(Collectors.toList());
+    updateScholarshipStatus(eList);
+    for(Student es: eList)
+        System.out.println(es);
+     
+     sc.close();
+   }
+}
